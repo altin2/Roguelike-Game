@@ -8,14 +8,17 @@ using TMPro;
 public class Enemy : MonoBehaviour
 {
     public int maxHealth = 3;
+    public int xpValue = 1;
     private int currentHealth;
     [SerializeField] FloatingHealthBar healthBar;
     [SerializeField] private KillCounter killCounter;
+    [SerializeField] private Player player;
     Rigidbody2D rb;
     private void Awake(){
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         killCounter = FindObjectOfType<KillCounter>();
+        player = FindObjectOfType<Player>();
         if (killCounter == null)
         {
             Debug.LogError("KillCounter not found in the scene! Make sure it's in the hierarchy.");
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            player.addXP(xpValue);
         }
     }
 
